@@ -2,7 +2,7 @@
 
 Un jeu de mémoire interactif et amusant développé avec PHP. Trouvez les paires de cartes en testant votre mémoire !
 
-![Memory Game](https://img.shields.io/badge/PHP-7.4+-blue?style=flat-square) ![Status](https://img.shields.io/badge/Status-Active-success?style=flat-square) ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+![Memory Game](https://img.shields.io/badge/PHP-7.4+-blue?style=flat-square) ![Status](https://img.shields.io/badge/Status-Active-success?style=flat-square)
 
 ## 📋 Description
 
@@ -137,10 +137,6 @@ game.php (Update Display)
 ## 🤝 Contribution
 
 Les contributions sont les bienvenues ! Pour proposer des améliorations
-
-## 📝 Licence
-
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
 ## 👨‍💻 Auteur
 
