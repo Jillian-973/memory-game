@@ -1,0 +1,373 @@
+/* ===== Couleurs du jeu (DA verte) ===== */
+:root {
+    --vert: #4CAF50;
+    --vert-hover: #45a049;
+    --vert-fonce: #275f2a;
+    --vert-clair: #e8f5e9;
+    --rouge: #e53935;
+    --fond: #f0f0f0;
+    --texte: #333;
+    --texte-doux: #777;
+    --blanc: #fff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Nunito', Arial, sans-serif;
+    text-align: center;
+    background-color: var(--fond);
+    color: var(--texte);
+}
+
+h1 {
+    color: var(--texte);
+    margin: 0;
+}
+
+/* ===== Bandeau du haut ===== */
+.barre {
+    background-color: var(--vert);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    padding: 14px 16px;
+}
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--blanc);
+    font-size: 22px;
+    font-weight: 800;
+    text-decoration: none;
+}
+.logo-icone {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    background-color: var(--blanc);
+    box-shadow: 4px 4px 0 var(--vert-fonce);
+}
+
+/* ===== Panneau blanc au centre ===== */
+.panneau {
+    width: calc(100% - 32px);
+    max-width: 640px;
+    margin: 32px auto;
+    padding: 28px 24px;
+    background-color: var(--blanc);
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+.sous-titre {
+    color: var(--texte-doux);
+    margin: 8px 0 24px;
+}
+
+/* ===== Boutons ===== */
+.bouton {
+    display: inline-block;
+    padding: 12px 28px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    background-color: var(--vert);
+    color: var(--blanc);
+    border: none;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 4px 0 var(--vert-fonce);
+    transition: background-color 0.15s, transform 0.1s, box-shadow 0.1s;
+}
+.bouton:hover {
+    background-color: var(--vert-hover);
+}
+.bouton:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--vert-fonce);
+}
+.bouton-secondaire {
+    background-color: var(--blanc);
+    color: var(--vert-fonce);
+    border: 2px solid var(--vert);
+    box-shadow: 0 4px 0 #d5d5d5;
+}
+.bouton-secondaire:hover {
+    background-color: var(--vert-clair);
+}
+.bouton-secondaire:active {
+    box-shadow: 0 1px 0 #d5d5d5;
+}
+.actions {
+    margin-top: 24px;
+}
+
+/* ===== Statistiques (essais, paires, erreurs) ===== */
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0 12px;
+}
+.stat {
+    flex: 1;
+    max-width: 130px;
+    padding: 10px 8px;
+    background-color: #f6f8f6;
+    border-radius: 12px;
+}
+.stat-valeur {
+    display: block;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--vert-fonce);
+}
+.stat-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--texte-doux);
+}
+
+/* barre de progression des paires */
+.progression {
+    height: 8px;
+    margin: 0 auto 12px;
+    max-width: 520px;
+    background-color: #e4e4e4;
+    border-radius: 999px;
+    overflow: hidden;
+}
+.progression-remplie {
+    height: 100%;
+    background-color: var(--vert);
+    border-radius: 999px;
+    transition: width 0.3s;
+}
+
+/* message sous les stats */
+.message {
+    min-height: 24px;
+    margin: 0 0 16px;
+    font-weight: 700;
+    color: var(--texte-doux);
+}
+.message-bravo {
+    color: var(--vert-fonce);
+}
+.message-rate {
+    color: var(--rouge);
+}
+
+/* ===== Plateau ===== */
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(8px, 2vw, 14px);
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+/* ===== Cartes ===== */
+
+/* carte cachee : le dos vert */
+.card {
+    position: relative;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--blanc);
+    font-size: clamp(22px, 6vw, 38px);
+    font-weight: 800;
+    background: linear-gradient(145deg, #66bb6a 0%, var(--vert) 45%, #3d8b40 100%);
+    box-shadow: 0 4px 0 var(--vert-fonce), 0 6px 14px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+/* cadre interieur du dos */
+.card::before {
+    content: '';
+    position: absolute;
+    inset: 9%;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+}
+/* reflet en haut a gauche */
+.card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 45%);
+    pointer-events: none;
+}
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 0 var(--vert-fonce), 0 10px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* carte retournee : face blanche avec la pierre */
+.selected,
+.trouver {
+    background: var(--blanc);
+    border: 3px solid var(--vert-fonce);
+    box-shadow: 0 4px 0 #d5d5d5;
+    color: var(--texte);
+    cursor: default;
+}
+.selected::before,
+.trouver::before,
+.selected::after {
+    display: none;
+}
+.selected:hover,
+.trouver:hover {
+    transform: none;
+    box-shadow: 0 4px 0 #d5d5d5;
+}
+
+/* 2 cartes retournees mais pas une paire */
+.rate {
+    border-color: var(--rouge);
+    animation: secouer 0.35s ease-in-out 0.35s;
+}
+
+/* paire trouvee : fond vert clair + coche */
+.trouver {
+    background: var(--vert-clair);
+    border-color: var(--vert);
+    box-shadow: none;
+}
+.trouver:hover {
+    box-shadow: none;
+}
+.trouver::after {
+    content: '✓';
+    inset: auto;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    font-size: 13px;
+    color: var(--blanc);
+    background: var(--vert);
+    border-radius: 50%;
+}
+
+/* nom de la pierre sous l'image */
+.nom {
+    font-size: clamp(9px, 2.4vw, 13px);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #555;
+}
+
+/* la pierre precieuse (dessinee en CSS) */
+.gem {
+    width: 46%;
+    aspect-ratio: 1.15;
+    clip-path: polygon(22% 0, 78% 0, 100% 32%, 50% 100%, 0 32%);
+    background:
+        linear-gradient(115deg, rgba(255, 255, 255, 0.6) 0 28%, rgba(255, 255, 255, 0) 28%),
+        linear-gradient(245deg, rgba(0, 0, 0, 0.2) 0 34%, rgba(0, 0, 0, 0) 34%),
+        var(--couleur);
+}
+
+/* une couleur par pierre */
+.rune      { --couleur: #7e57c2; }
+.jade      { --couleur: #26a69a; }
+.saphyre   { --couleur: #1e5bd8; }
+.rubis     { --couleur: #d81b45; }
+.emeraude  { --couleur: #2e9e4f; }
+.amaryllis { --couleur: #ff7043; }
+.quartz    { --couleur: #f48fb1; }
+.cristal   { --couleur: #4fc3f7; }
+
+/* ===== Animations ===== */
+
+/* la derniere carte cliquee se retourne */
+.anime {
+    animation: retourner 0.35s ease-out;
+}
+.rate.anime {
+    animation: retourner 0.35s ease-out, secouer 0.35s ease-in-out 0.35s;
+}
+.trouver.anime {
+    animation: retourner 0.35s ease-out, rebondir 0.3s ease-out 0.35s;
+}
+
+@keyframes retourner {
+    from { transform: perspective(600px) rotateY(90deg); }
+    to   { transform: perspective(600px) rotateY(0deg); }
+}
+@keyframes secouer {
+    0%, 100% { transform: translateX(0); }
+    25%      { transform: translateX(-5px); }
+    75%      { transform: translateX(5px); }
+}
+@keyframes rebondir {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.08); }
+}
+
+/* ===== Accueil ===== */
+.regles {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto 28px;
+    max-width: 420px;
+    text-align: left;
+}
+.regles li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+}
+.regles-numero {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-weight: 800;
+    color: var(--blanc);
+    background-color: var(--vert);
+    border-radius: 50%;
+}
+.apercu {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    max-width: 300px;
+    margin: 0 auto 28px;
+}
+.apercu .card:hover {
+    transform: none;
+}
+
+/* ===== Fin ===== */
+.trophee {
+    width: 84px;
+    height: 84px;
+    line-height: 84px;
+    margin: 0 auto 16px;
+    font-size: 42px;
+    color: var(--blanc);
+    background-color: var(--vert);
+    border-radius: 50%;
+    box-shadow: 0 4px 0 var(--vert-fonce);
+    animation: rebondir 0.6s ease-out;
+}

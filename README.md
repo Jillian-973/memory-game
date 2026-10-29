@@ -62,8 +62,9 @@ Accédez à : `http://localhost/memory_game/start.php`
 1. Cliquez sur le bouton **"START GAME"** pour commencer une nouvelle partie
 2. **Cliquez sur les cartes** pour les retourner et voir leur contenu
 3. Vous pouvez sélectionner jusqu'à **2 cartes par tour**
-4. Les cartes sélectionnées s'affichent en couleur plus foncée
-5. Cliquez sur **"EXIT GAME"** pour retourner à l'accueil
+4. Si les 2 cartes forment une paire, elles restent visibles (vert clair avec une coche), sinon elles se recachent au clic suivant
+5. Trouvez les 8 paires pour arriver sur la page de fin avec votre nombre d'essais
+6. Cliquez sur **"EXIT GAME"** pour retourner à l'accueil
 
 ## 🛠️ Architecture Technique
 
@@ -74,7 +75,8 @@ memory_game/
 ├── start.php       # Page d'accueil - Initialisation du jeu
 ├── game.php        # Affichage du plateau de jeu
 ├── click.php       # Gestion des clics et logique de jeu
-├── fin.php         # Page de fin (à développer)
+├── fin.php         # Page de fin - Affichage du nombre d'essais
+├── style.css       # Style commun aux 3 pages (DA verte, cartes, animations)
 └── README.md       # Documentation
 ```
 
@@ -95,6 +97,7 @@ game.php (Update Display)
 - **`$_SESSION['carte']`** : Tableau des cartes avec leurs propriétés
 - **`$_SESSION['last_clicked_card']`** : ID de la dernière carte cliquée
 - **`$_SESSION['maxCartesSelectionner']`** : Compteur de cartes sélectionnées
+- **`$_SESSION['nombreEssais']`** : Nombre d'essais (paires de cartes retournées)
 
 ### Structure de données - Carte
 
@@ -117,10 +120,10 @@ game.php (Update Display)
 ## 🔮 Améliorations Futures
 
 - [ ] Système de scoring et classement
-- [ ] Détection automatique des paires
+- [x] Détection automatique des paires
 - [ ] Limite de temps par partie
 - [ ] Niveaux de difficulté (grille 3x3, 5x5, etc.)
-- [ ] Design amélioré avec animations CSS
+- [x] Design amélioré avec animations CSS
 - [ ] Persistance des données (base de données)
 - [ ] Mode multijoueur
 - [ ] Stockage des high-scores
