@@ -54,4 +54,4 @@ if(isset($_GET['carte']) && isset($_SESSION['carte'])) {
 }
 
 header("Location: game.php");
-?>
+exit;

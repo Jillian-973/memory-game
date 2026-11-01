@@ -94,7 +94,9 @@ cp -r memory-game /var/www/html/
 ```
 
 3. **Lancez le jeu**
-Accédez à : `http://localhost/memory-game/start.php`
+Accédez à : `http://localhost/memory-game/public/start.php`
+
+> 💡 En production, configurez le serveur pour que sa racine web (*DocumentRoot*) pointe sur le dossier **`public/`** : les dossiers `src/` et `templates/` ne sont alors plus accessibles depuis le navigateur. C'est ce que fait l'image Docker.
 
 ## 💻 Utilisation
 
@@ -111,26 +113,45 @@ Accédez à : `http://localhost/memory-game/start.php`
 
 ```
 memory-game/
-├── start.php       # Page d'accueil - Initialisation du jeu
-├── game.php        # Affichage du plateau de jeu
-├── click.php       # Gestion des clics et logique de jeu
-├── fin.php         # Page de fin - Affichage du nombre d'essais
-├── style.css       # Style commun aux 3 pages (DA verte, cartes, animations)
-├── Dockerfile          # Recette de l'image Docker (PHP 8.3 + Apache)
-├── docker-compose.yml  # Lancement du conteneur en une commande (port 8080)
+├── public/                     # Racine web : seul dossier accessible depuis le navigateur
+│   ├── start.php               # Page d'accueil - Initialisation du jeu
+│   ├── game.php                # Affichage du plateau de jeu
+│   ├── click.php               # Gestion des clics et logique de jeu
+│   ├── fin.php                 # Page de fin - Affichage du nombre d'essais
+│   └── assets/
+│       └── css/
+│           └── style.css       # Style commun aux 3 pages (DA verte, cartes, animations)
+├── src/
+│   └── cartes.php              # Liste des 16 cartes du jeu (8 paires)
+├── templates/
+│   ├── header.php              # Début commun des pages (<head>, barre du haut)
+│   └── footer.php              # Fin commune des pages
 ├── docker/
-│   └── entrypoint.sh   # Script exécuté au démarrage du conteneur
-├── .dockerignore       # Fichiers exclus de l'image Docker
-├── .gitattributes      # Force les fins de ligne Linux sur les scripts .sh
-└── README.md           # Documentation
+│   ├── apache/
+│   │   └── 000-default.conf    # Configuration Apache (racine web, page d'accueil)
+│   └── entrypoint.sh           # Script exécuté au démarrage du conteneur
+├── Dockerfile                  # Recette de l'image Docker (PHP 8.3 + Apache)
+├── docker-compose.yml          # Lancement du conteneur en une commande (port 8080)
+├── .dockerignore               # Fichiers exclus de l'image Docker
+├── .gitattributes              # Force les fins de ligne Linux sur les scripts .sh
+├── .gitignore                  # Fichiers non suivis par Git
+└── README.md                   # Documentation
 ```
+
+| Dossier | Rôle |
+|---------|------|
+| `public/` | Tout ce que le navigateur peut demander : les pages et les fichiers statiques (`assets/`). |
+| `src/` | Les données et la logique réutilisables, jamais appelées directement par le navigateur. |
+| `templates/` | Les morceaux de HTML communs à plusieurs pages, inclus avec `require`. |
+| `docker/` | Tout ce qui sert uniquement à l'image Docker. |
 
 ### Image Docker
 
 - **Base** : image officielle `php:8.3-apache`
-- **Page d'accueil** : `start.php` (configurée via `DirectoryIndex` dans Apache)
+- **Racine web** : `public/`. Les dossiers `src/` et `templates/` sont copiés dans l'image mais restent inaccessibles depuis le navigateur.
+- **Page d'accueil** : `start.php` (configurée dans `docker/apache/000-default.conf`)
 - **Entrypoint** : prépare le dossier des sessions PHP et permet de changer le port d'Apache avec la variable `APP_PORT` (80 par défaut), puis démarre Apache
-- **Healthcheck** : Docker vérifie toutes les 30 secondes que `start.php` répond
+- **Healthcheck** : Docker vérifie toutes les 30 secondes que la page d'accueil répond
 
 ### Flux d'application
 
@@ -187,8 +208,8 @@ game.php (Update Display)
 |----------|--------|
 | Nombre de cartes | 16 |
 | Nombre de paires | 8 |
-| Fichiers PHP | 4 |
-| Lignes de code | ~120 |
+| Fichiers PHP | 7 (4 pages, 1 fichier de données, 2 templates) |
+| Lignes de code (PHP + HTML) | ~280 |
 
 ## 🤝 Contribution
 
