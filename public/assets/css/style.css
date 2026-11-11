@@ -44,11 +44,14 @@ h1 {
     text-decoration: none;
 }
 .logo-icone {
-    width: 26px;
-    height: 26px;
-    border-radius: 6px;
-    background-color: var(--blanc);
-    box-shadow: 4px 4px 0 var(--vert-fonce);
+    width: 44px;
+    height: 44px;
+    margin: -6px 0;
+    transition: transform 0.2s;
+}
+/* les cartes du logo se penchent au survol */
+.logo:hover .logo-icone {
+    transform: rotate(-8deg) scale(1.08);
 }
 
 /* ===== Panneau blanc au centre ===== */
